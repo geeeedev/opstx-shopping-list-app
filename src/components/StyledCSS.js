@@ -25,6 +25,11 @@ export const Button = styled.button`
   border-radius: 5px;
 `;
 
+export const WarningLabel = styled.label`
+  color: red;
+  display: block;
+`;
+
 export const DisplayContainer = styled.div`
   font-size: 1em;
   margin: 1em;

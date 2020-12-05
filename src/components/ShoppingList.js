@@ -4,6 +4,7 @@ import {
   Label,
   Input,
   Button,
+  WarningLabel,
   DisplayContainer,
   DisplayPending,
   DisplayCrossedOff,
@@ -153,12 +154,14 @@ const ShoppingList = () => {
   const [displayList, setDisplayList] = useState(initList);
   const [editActive, setEditActive] = useState(false);
   const [itemToEdit, setItemToEdit] = useState(null);
+  const [warning, setWarning] = useState("");
 
   const toTitleCase = (str) => {
-    str = str.toLowerCase()
-        .split(" ")
-        .map((eaWord) => eaWord[0].toUpperCase() + eaWord.slice(1))
-        .join(" ");
+    str = str
+      .toLowerCase()
+      .split(" ")
+      .map((eaWord) => eaWord[0].toUpperCase() + eaWord.slice(1))
+      .join(" ");
 
     return str;
   };
@@ -166,20 +169,28 @@ const ShoppingList = () => {
   const handleAddNew = (e) => {
     e.preventDefault();
 
-    const newItem = {
-      itemName: toTitleCase(itemName),
-      category,
-      price,
-      quantity,
-      isCrossedOff,
-    };
+    if (itemName) {
+      const newItem = {
+        itemName: toTitleCase(itemName),
+        category,
+        price,
+        quantity,
+        isCrossedOff,
+      };
 
-    const newList = allItemsList;
-    newList.push(newItem);
-    setDisplayList(newList);
-    setAllItemsList(newList);
+      const newList = allItemsList;
+      newList.push(newItem);
+      setDisplayList(newList);
+      setAllItemsList(newList);
 
-    setItemName("");
+      setItemName("");
+    } else {
+      setWarning("Create Unsuccessful: No Item is Provided!");
+    }
+  };
+
+  const clearWarning = () => {
+    setWarning("");
   };
 
   const handleSearch = (e) => {
@@ -196,13 +207,16 @@ const ShoppingList = () => {
 
   const handleCrossOff = (e, item) => {
     e.preventDefault();
-    item.isCrossedOff = !item.isCrossedOff;
+    clearWarning();
 
+    item.isCrossedOff = !item.isCrossedOff;
     setDisplayList([...displayList]);
   };
 
   const handleEditing = (e, selectedItem) => {
     e.preventDefault();
+    clearWarning();
+
     setEditActive(true);
     setItemToEdit(selectedItem);
   };
@@ -245,7 +259,7 @@ const ShoppingList = () => {
   /**
    * sorted the categorized list into its own array list
    * ["Dairy", "Fruit", "Others"]
-   */ 
+   */
   const sortedCategory = Object.keys(categoriedDisplayList).sort();
 
   return (
@@ -261,11 +275,13 @@ const ShoppingList = () => {
           type="text"
           name="add"
           onChange={(e) => handleSearch(e)}
+          onFocus={clearWarning}
           value={itemName}
         />
 
         <Button type="submit">Create</Button>
       </form>
+      <WarningLabel>{warning}</WarningLabel>
 
       <DisplayPending>
         <ListHeader> Pending Items </ListHeader>
@@ -273,75 +289,70 @@ const ShoppingList = () => {
         {/* {dairy:[item, item],
             fruit:[]
         */}
-        {
-          sortedCategory.map((cat, catIdx) => {
-            return (
-              <Section key={catIdx}>
-                <CategoryHeader>{cat}</CategoryHeader>
-                <ItemInCategory>
-                  {categoriedDisplayList[cat].map((item, itemIdx) => {
-                    return ( 
-                        <>  
-                          <PendingItem
-                            key={itemIdx}
-                            onClick={(e) => handleCrossOff(e, item)}
-                          >
-                            <EachItemName>{item.itemName}</EachItemName>
-                            
-                            <EachItem>
-                              Qty: {item.quantity ? item.quantity : "0"}
-                            </EachItem>
-                            <EachItem>${item.price ? item.price : "0"}/per</EachItem>
-                          </PendingItem>
-                          <EditButton onClick={(e) => handleEditing(e, item)}>
-                            Edit {item.itemName}
-                          </EditButton>
-                        </>
-                      )
-                    }
-                  )}  
-                </ItemInCategory>
-              </Section>
-            );
-          })
-        }
+        {sortedCategory.map((cat, catIdx) => {
+          return (
+            <Section key={catIdx}>
+              <CategoryHeader>{cat}</CategoryHeader>
+              <ItemInCategory>
+                {categoriedDisplayList[cat].map((item, itemIdx) => {
+                  return (
+                    <>
+                      <PendingItem
+                        key={itemIdx}
+                        onClick={(e) => handleCrossOff(e, item)}
+                      >
+                        <EachItemName>{item.itemName}</EachItemName>
+
+                        <EachItem>
+                          Qty: {item.quantity ? item.quantity : "0"}
+                        </EachItem>
+                        <EachItem>
+                          ${item.price ? item.price : "0"}/per
+                        </EachItem>
+                      </PendingItem>
+                      <EditButton onClick={(e) => handleEditing(e, item)}>
+                        Edit {item.itemName}
+                      </EditButton>
+                    </>
+                  );
+                })}
+              </ItemInCategory>
+            </Section>
+          );
+        })}
         {calcSubtotal > 0 && <Subtotal>Subtotal: ${calcSubtotal}</Subtotal>}
       </DisplayPending>
       <DisplayCrossedOff>
         <ListHeader> Crossed-Off Items </ListHeader>
-          {displayList
-            .filter((item) => item.isCrossedOff === true)
-            // .sort((a, b) =>
-            //   a.category > b.category
-            //     ? 1
-            //     : a.category === b.category
-            //     ? a.itemName > b.itemName
-            //       ? 1
-            //       : -1
-            //     : -1
-            // )
-            .sort((a, b) =>
-              a.itemName > b.itemName
-                ? 1
-                : -1
-            )
-            // sorted by itemName only (took out category sorting)
-            // Credit: researched and found above sorting solution from:
-            // https://flaviocopes.com/how-to-sort-array-of-objects-by-property-javascript/
-            .map((item, idx) => {
-              return (
-                <>
-                  <CrossedOffItem
-                    key={idx}
-                    onClick={(e) => handleCrossOff(e, item)}
-                  >
-                    <EachItemName>{item.itemName}</EachItemName>
-                    <EachItem>${item.price ? item.price : "0"}</EachItem>
-                    <EachItem>({item.quantity ? item.quantity : "0"})</EachItem>
-                  </CrossedOffItem>
-                </>
-              );
-            })}
+        {displayList
+          .filter((item) => item.isCrossedOff === true)
+          // .sort((a, b) =>
+          //   a.category > b.category
+          //     ? 1
+          //     : a.category === b.category
+          //     ? a.itemName > b.itemName
+          //       ? 1
+          //       : -1
+          //     : -1
+          // )
+          .sort((a, b) => (a.itemName > b.itemName ? 1 : -1))
+          // sorted by itemName only (took out category sorting)
+          // Credit: researched and found above sorting solution from:
+          // https://flaviocopes.com/how-to-sort-array-of-objects-by-property-javascript/
+          .map((item, idx) => {
+            return (
+              <>
+                <CrossedOffItem
+                  key={idx}
+                  onClick={(e) => handleCrossOff(e, item)}
+                >
+                  <EachItemName>{item.itemName}</EachItemName>
+                  <EachItem>${item.price ? item.price : "0"}</EachItem>
+                  <EachItem>({item.quantity ? item.quantity : "0"})</EachItem>
+                </CrossedOffItem>
+              </>
+            );
+          })}
       </DisplayCrossedOff>
       {editActive && (
         <EditItem
