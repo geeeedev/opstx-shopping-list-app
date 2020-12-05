@@ -44,6 +44,11 @@ const ShoppingList = () => {
     return str;
   };
 
+  const clearScreen = () => {
+    setWarning("");
+    setActivateEdit(false);
+  };
+
   const handleAddNew = (e) => {
     e.preventDefault();
 
@@ -68,11 +73,6 @@ const ShoppingList = () => {
     }
   };
 
-  const clearScreen = () => {
-    setWarning("");
-    setActivateEdit(false);
-  };
-
   const handleSearch = (e) => {
     const searchedItems = allItemsList.filter((item) => {
       return item.itemName.toLowerCase().includes(e.target.value.toLowerCase());
@@ -81,14 +81,19 @@ const ShoppingList = () => {
     setItemName(e.target.value);
   };
 
-  const handleCrossOff = (e, item) => {
+  const handleCrossOff = (e, selectedItem) => {
     e.preventDefault();
     clearScreen();
 
-    item.isCrossedOff = !item.isCrossedOff;
-    setDisplayList([...displayList]);
-  };
+    const updatedCrossedOff = allItemsList.map((item) =>
+      item === selectedItem
+        ? { ...selectedItem, isCrossedOff: !selectedItem.isCrossedOff }
+        : item
+    );
 
+    setDisplayList(updatedCrossedOff);
+    setAllItemsList(updatedCrossedOff);
+  };
 
   const handleEditing = (e, selectedItem) => {
     e.preventDefault();
@@ -102,6 +107,7 @@ const ShoppingList = () => {
     const updatedList = allItemsList.map((item) =>
       item === origItem ? updatedItem : item
     );
+
     setAllItemsList(updatedList);
     setDisplayList(updatedList);
   };
@@ -218,22 +224,6 @@ const ShoppingList = () => {
             );
           })}
       </DisplayCrossedOff>
-
-      <DisplayContainer>
-        Testing:
-        <p>Adding: {itemName}</p>
-        {allItemsList.map((item, idx) => {
-          return (
-            <>
-              <h3 key={idx}>{item.itemName} </h3>
-              <EachItem>{item.category}</EachItem>
-              <EachItem>${item.price}</EachItem>
-              <EachItem>({item.quantity})</EachItem>
-              <EachItem>{item.isCrossedOff ? "CrossedOff" : ""}</EachItem>
-            </>
-          );
-        })}
-      </DisplayContainer>
     </>
   );
 };
