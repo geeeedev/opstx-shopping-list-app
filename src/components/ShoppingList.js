@@ -3,7 +3,9 @@ import styled from "styled-components";
 
 // could possibly break these out into their own components
 // and import them to be used
-const Label = styled.label``;
+const Label = styled.label`
+    color: darkblue;
+`;
 
 const Input = styled.input`
   padding: 0.5em;
@@ -14,7 +16,7 @@ const Input = styled.input`
 `;
 
 const Button = styled.button`
-  //background: ivory;
+  background: ivory;
   color: darkblue;
   font-size: 1em;
   margin: 1em;
@@ -54,6 +56,15 @@ const PendingLi = styled.li`
 
 const CrossedOffLi = styled(PendingLi)`
   text-decoration: line-through;
+`;
+
+const EachItem = styled.span`
+padding: 8px;
+  color: maroon;
+`;
+
+const EachItemName = styled(EachItem)`
+  font-weight: bold;
 `;
 
 const ShoppingList = () => {
@@ -152,10 +163,7 @@ const ShoppingList = () => {
     e.preventDefault();
     item.isCrossedOff = !item.isCrossedOff;
 
-    setDisplayList((prevList) => {
-      return [...prevList];
-    });
-
+    setDisplayList([...displayList]);
   };
 
   return (
@@ -197,9 +205,9 @@ const ShoppingList = () => {
               return (
                 <>
                   <PendingLi key={idx} onClick={(e) => handleCrossOff(e, item)}>
-                    <span>{item.itemName}</span>
-                    <span>${item.price ? item.price : "0"}</span>
-                    <span>({item.quantity ? item.quantity : "0"})</span>
+                    <EachItemName>{item.itemName}</EachItemName>
+                    <EachItem>${item.price ? item.price : "0"}</EachItem>
+                    <EachItem>({item.quantity ? item.quantity : "0"})</EachItem>
                   </PendingLi>
                 </>
               );
@@ -225,16 +233,35 @@ const ShoppingList = () => {
             .map((item, idx) => {
               return (
                 <>
-                  <CrossedOffLi key={idx} onClick={(e) => handleCrossOff(e, item)}>
-                    <span>{item.itemName}</span>
-                    <span>${item.price ? item.price : "0"}</span>
-                    <span>({item.quantity ? item.quantity : "0"})</span>
+                  <CrossedOffLi
+                    key={idx}
+                    onClick={(e) => handleCrossOff(e, item)}
+                  >
+                    <EachItemName>{item.itemName}</EachItemName>
+                    <EachItem>${item.price ? item.price : "0"}</EachItem>
+                    <EachItem>({item.quantity ? item.quantity : "0"})</EachItem>
                   </CrossedOffLi>
                 </>
               );
             })}
         </ul>
       </DisplayCrossedOff>
+
+      <DisplayContainer>
+        Testing:
+        <p>Adding: {itemName}</p>
+        {allItemsList.map((item, idx) => {
+          return (
+            <>
+              <h3 key={idx}>{item.itemName} </h3>
+              <EachItem>{item.category}</EachItem>
+              <EachItem>${item.price}</EachItem>
+              <EachItem>({item.quantity})</EachItem>
+              <EachItem>{item.isCrossedOff ? "CrossedOff" : ""}</EachItem>
+            </>
+          );
+        })}
+      </DisplayContainer>
     </>
   );
 };
