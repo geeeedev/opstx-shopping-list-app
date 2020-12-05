@@ -260,7 +260,7 @@ const ShoppingList = () => {
         </ul>
         <Subtotal>Subtotal: ${displayList
     .filter((item) => item.isCrossedOff === false)
-    .map((item) => item.price )
+    .map((item) => item.price * item.quantity)
     .reduce((a, b) => a + b, 0)
     .toFixed(2)}</Subtotal>
       </DisplayPending>

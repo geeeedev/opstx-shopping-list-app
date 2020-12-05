@@ -47,13 +47,6 @@ export const DisplayCrossedOff = styled(DisplayContainer)`
   background: lightgreen;
 `;
 
-export const Subtotal = styled.p`
-  margin-bottom: 0px;
-  font-style: italic;
-  font-weight: bold;
-  
-`;
-
 export const PendingLi = styled.li`
   list-style-type: none;
   margin-top: 15px;
@@ -61,6 +54,12 @@ export const PendingLi = styled.li`
 
 export const CrossedOffLi = styled(PendingLi)`
   text-decoration: line-through;
+`;
+
+export const Subtotal = styled.p`
+  margin-bottom: 0px;
+  font-style: italic;
+  font-weight: bold;
 `;
 
 export const EachItem = styled.span`
@@ -78,5 +77,3 @@ export const A = styled.a`
 `;
 
 
-// export default EachItem;
-// export { EachItem, EachItemName };
