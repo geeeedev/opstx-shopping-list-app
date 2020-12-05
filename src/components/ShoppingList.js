@@ -148,6 +148,16 @@ const ShoppingList = () => {
     //Check for (and not allow) duplicate entry - Not listed in requirement, but I would add that if time permits
   };
 
+  const handleCrossOff = (e, item) => {
+    e.preventDefault();
+    item.isCrossedOff = !item.isCrossedOff;
+
+    setDisplayList((prevList) => {
+      return [...prevList];
+    });
+
+  };
+
   return (
     <>
       <form
@@ -186,7 +196,7 @@ const ShoppingList = () => {
             .map((item, idx) => {
               return (
                 <>
-                  <PendingLi key={idx}>
+                  <PendingLi key={idx} onClick={(e) => handleCrossOff(e, item)}>
                     <span>{item.itemName}</span>
                     <span>${item.price ? item.price : "0"}</span>
                     <span>({item.quantity ? item.quantity : "0"})</span>
@@ -215,7 +225,7 @@ const ShoppingList = () => {
             .map((item, idx) => {
               return (
                 <>
-                  <CrossedOffLi key={idx}>
+                  <CrossedOffLi key={idx} onClick={(e) => handleCrossOff(e, item)}>
                     <span>{item.itemName}</span>
                     <span>${item.price ? item.price : "0"}</span>
                     <span>({item.quantity ? item.quantity : "0"})</span>
