@@ -1,27 +1,32 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import {
+  Label,
+  Input,
+  Button,
+} from "./StyledCSS";
 
-const Label = styled.label`
-    color: darkblue;
-`;
+// const Label = styled.label`
+//     color: darkblue;
+// `;
 
-const Input = styled.input`
-  padding: 0.5em;
-  margin: 0.5em;
-  background: lightgray;
-  border: 1px solid gray;
-  border-radius: 5px;
-`;
+// const Input = styled.input`
+//   padding: 0.5em;
+//   margin: 0.5em;
+//   background: lightgray;
+//   border: 1px solid gray;
+//   border-radius: 5px;
+// `;
 
-const Button = styled.button`
-  background: ivory;
-  color: darkblue;
-  font-size: 1em;
-  margin: 1em;
-  padding: 0.25em 1em;
-  border: 2px solid darkblue;
-  border-radius: 5px;
-`;
+// const Button = styled.button`
+//   background: ivory;
+//   color: darkblue;
+//   font-size: 1em;
+//   margin: 1em;
+//   padding: 0.25em 1em;
+//   border: 2px solid darkblue;
+//   border-radius: 5px;
+// `;
 
 const EditItem = (props) => {
     const [itemName, setItemName] = useState(props.item.itemName);

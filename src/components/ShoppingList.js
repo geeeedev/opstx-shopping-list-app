@@ -7,6 +7,7 @@ import {
     DisplayContainer,
     DisplayPending,
     DisplayCrossedOff,
+    ListHeader,
     PendingLi,
     CrossedOffLi,
     Subtotal,
@@ -228,6 +229,7 @@ const ShoppingList = () => {
       </form>
 
       <DisplayPending>
+      <ListHeader> Pending Items </ListHeader>
         <ul>
           {displayList
             .filter((item) => item.isCrossedOff === false)
@@ -265,6 +267,7 @@ const ShoppingList = () => {
     .toFixed(2)}</Subtotal>
       </DisplayPending>
       <DisplayCrossedOff>
+      <ListHeader> Crossed-Off Items </ListHeader>
         <ul>
           {displayList
             .filter((item) => item.isCrossedOff === true)
