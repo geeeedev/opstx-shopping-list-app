@@ -1,78 +1,91 @@
 import React, { useState } from "react";
-import styled from "styled-components";
+// import styled from "styled-components";
+import {
+    Label,
+    Input,
+    Button,
+    DisplayContainer,
+    DisplayPending,
+    DisplayCrossedOff,
+    PendingLi,
+    CrossedOffLi,
+    EachItem,
+    EachItemName,
+    A,
+  } from "./StyledCSS";
 import EditItem from "./EditItem";
 
 
-// could possibly break these out into their own components
-// and import them to be used
-const Label = styled.label`
-    color: darkblue;
-`;
+// // could possibly break these out into their own components
+// // and import them to be used
+// const Label = styled.label`
+//     color: darkblue;
+// `;
 
-const Input = styled.input`
-  padding: 0.5em;
-  margin: 0.5em;
-  background: lightgray;
-  border: 1px solid gray;
-  border-radius: 5px;
-`;
+// const Input = styled.input`
+//   padding: 0.5em;
+//   margin: 0.5em;
+//   background: lightgray;
+//   border: 1px solid gray;
+//   border-radius: 5px;
+// `;
 
-const Button = styled.button`
-  background: ivory;
-  color: darkblue;
-  font-size: 1em;
-  margin: 1em;
-  padding: 0.25em 1em;
-  border: 2px solid darkblue;
-  border-radius: 5px;
-`;
+// const Button = styled.button`
+//   background: ivory;
+//   color: darkblue;
+//   font-size: 1em;
+//   margin: 1em;
+//   padding: 0.25em 1em;
+//   border: 2px solid darkblue;
+//   border-radius: 5px;
+// `;
 
-const DisplayContainer = styled.div`
-  font-size: 1em;
-  margin: 1em;
-  padding: 0.25em 1em;
-  width: 30vw;
-  height: auto;
-  //   display: flex;
-  //   justify-content: center;
-  display: inline-block;
-  text-align: center;
-  border-radius: 15px;
-  background: lightgray;
-`;
+// const DisplayContainer = styled.div`
+//   font-size: 1em;
+//   margin: 1em;
+//   padding: 0.25em 1em;
+//   width: 30vw;
+//   height: auto;
+//   //   display: flex;
+//   //   justify-content: center;
+//   display: inline-block;
+//   text-align: center;
+//   border-radius: 15px;
+//   background: lightgray;
+// `;
 
-const DisplayPending = styled(DisplayContainer)`
-  // display: inline-block;
-  background: lightblue;
-`;
+// const DisplayPending = styled(DisplayContainer)`
+//   // display: inline-block;
+//   background: lightblue;
+// `;
 
-const DisplayCrossedOff = styled(DisplayContainer)`
-  // display: inline-block;
-  background: lightgreen;
-`;
+// const DisplayCrossedOff = styled(DisplayContainer)`
+//   // display: inline-block;
+//   background: lightgreen;
+// `;
 
-const PendingLi = styled.li`
-  list-style-type: none;
-  margin-top: 15px;
-`;
+// const PendingLi = styled.li`
+//   list-style-type: none;
+//   margin-top: 15px;
+// `;
 
-const CrossedOffLi = styled(PendingLi)`
-  text-decoration: line-through;
-`;
+// const CrossedOffLi = styled(PendingLi)`
+//   text-decoration: line-through;
+// `;
 
-const EachItem = styled.span`
-padding: 8px;
-  color: maroon;
-`;
+// const EachItem = styled.span`
+// padding: 8px;
+//   color: maroon;
+// `;
 
-const EachItemName = styled(EachItem)`
-  font-weight: bold;
-`;
+// const EachItemName = styled(EachItem)`
+//   font-weight: bold;
+// `;
 
-const A = styled.a`
-  display: inline;
-  font-size: smaller;
-`;
+// const A = styled.a`
+//   display: inline;
+//   font-size: smaller;
+// `;
 
 const ShoppingList = () => {
   const [itemName, setItemName] = useState("");
