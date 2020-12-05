@@ -9,6 +9,7 @@ import {
     DisplayCrossedOff,
     PendingLi,
     CrossedOffLi,
+    Subtotal,
     EachItem,
     EachItemName,
     A,
@@ -257,6 +258,11 @@ const ShoppingList = () => {
               );
             })}
         </ul>
+        <Subtotal>Subtotal: ${displayList
+    .filter((item) => item.isCrossedOff === false)
+    .map((item) => item.price )
+    .reduce((a, b) => a + b, 0)
+    .toFixed(2)}</Subtotal>
       </DisplayPending>
       <DisplayCrossedOff>
         <ul>

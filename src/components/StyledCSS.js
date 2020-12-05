@@ -47,6 +47,13 @@ export const DisplayCrossedOff = styled(DisplayContainer)`
   background: lightgreen;
 `;
 
+export const Subtotal = styled.p`
+  margin-bottom: 0px;
+  font-style: italic;
+  font-weight: bold;
+  
+`;
+
 export const PendingLi = styled.li`
   list-style-type: none;
   margin-top: 15px;
