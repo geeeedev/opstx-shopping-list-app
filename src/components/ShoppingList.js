@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import EditItem from "./EditItem";
+
 
 // could possibly break these out into their own components
 // and import them to be used
@@ -67,6 +69,11 @@ const EachItemName = styled(EachItem)`
   font-weight: bold;
 `;
 
+const A = styled.a`
+  display: inline;
+  font-size: smaller;
+`;
+
 const ShoppingList = () => {
   const [itemName, setItemName] = useState("");
   const [category, setCategory] = useState("");
@@ -127,6 +134,9 @@ const ShoppingList = () => {
   ];
   const [allItemsList, setAllItemsList] = useState(initList);
   const [displayList, setDisplayList] = useState(initList);
+  const [editActive, setEditActive] = useState(false);
+  const [itemToEdit, setItemToEdit] = useState(null);
+
 
   const handleAddNew = (e) => {
     e.preventDefault();
@@ -165,6 +175,24 @@ const ShoppingList = () => {
 
     setDisplayList([...displayList]);
   };
+
+  const handleEditing = (e, selectedItem) => {
+    e.preventDefault();
+    setEditActive(true);
+    setItemToEdit(selectedItem);
+  };
+
+  const handleUpdate = (origItem, updatedItem) => {
+    //this adds the updatedItem as new item, NO - I want update-existing //////////////
+    // setDisplayList((PrevList) => [...PrevList, updatedItem]);
+    // setAllItemsList((PrevList) => [...PrevList, updatedItem]);
+    const updatedList = allItemsList.map((item) =>
+      item === origItem ? updatedItem : item
+    );
+    setAllItemsList(updatedList);
+    setDisplayList(updatedList);
+  };
+
 
   return (
     <>
@@ -209,6 +237,9 @@ const ShoppingList = () => {
                     <EachItem>${item.price ? item.price : "0"}</EachItem>
                     <EachItem>({item.quantity ? item.quantity : "0"})</EachItem>
                   </PendingLi>
+                  <A href="#" onClick={(e) => handleEditing(e, item)}>
+                    Edit 
+                  </A>
                 </>
               );
             })}
@@ -246,7 +277,15 @@ const ShoppingList = () => {
             })}
         </ul>
       </DisplayCrossedOff>
+      {editActive && (
+        <EditItem
+          item={itemToEdit}
+          editActive={setEditActive}
+          updateList={handleUpdate}
+        />
+      )}
 
+      {/* /////////////////////////////////// For Testing Only /////////////////////////////////// */}
       <DisplayContainer>
         Testing:
         <p>Adding: {itemName}</p>
