@@ -110,7 +110,13 @@ export const EachItemName = styled(EachItem)`
   font-weight: bold;
 `;
 
-export const A = styled.a`
-  display: inline;
-  font-size: smaller;
+export const EditButton = styled(Button)`
+  background: gainsboro;
+  color: maroon;
+  font-size: 0.8em;
+  margin: 0.5em;
+  padding: 0.25em 0.8em;
+  border: 1px solid darkgrey;
+  border-radius: 5px;
+  // outline: 1px dotted red;
 `;

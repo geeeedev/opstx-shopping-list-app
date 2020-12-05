@@ -16,7 +16,7 @@ import {
   EachItem,
   EachItemName,
   ItemInCategory,
-  A,
+  EditButton,
 } from "./StyledCSS";
 import EditItem from "./EditItem";
 
@@ -93,9 +93,9 @@ import EditItem from "./EditItem";
 
 const ShoppingList = () => {
   const [itemName, setItemName] = useState("");
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState("Uncategorized");
   const [price, setPrice] = useState(0);
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState(1);
   const [isCrossedOff, setIsCrossedOff] = useState(false);
 
   const initList = [
@@ -154,11 +154,20 @@ const ShoppingList = () => {
   const [editActive, setEditActive] = useState(false);
   const [itemToEdit, setItemToEdit] = useState(null);
 
+  const toTitleCase = (str) => {
+    str = str.toLowerCase()
+        .split(" ")
+        .map((eaWord) => eaWord[0].toUpperCase() + eaWord.slice(1))
+        .join(" ");
+
+    return str;
+  };
+
   const handleAddNew = (e) => {
     e.preventDefault();
 
     const newItem = {
-      itemName: itemName,
+      itemName: toTitleCase(itemName),
       category,
       price,
       quantity,
@@ -226,10 +235,10 @@ const ShoppingList = () => {
   const categoriedDisplayList = displayList
     .filter((item) => item.isCrossedOff === false)
     .reduce((catObj, item) => {
-      if (!catObj.hasOwnProperty(item.category)) {
-        catObj[item.category] = [];
+      if (!catObj.hasOwnProperty(toTitleCase(item.category))) {
+        catObj[toTitleCase(item.category)] = [];
       }
-      catObj[item.category].push(item);
+      catObj[toTitleCase(item.category)].push(item);
       return catObj;
     }, {});
 
@@ -284,9 +293,9 @@ const ShoppingList = () => {
                             </EachItem>
                             <EachItem>${item.price ? item.price : "0"}/per</EachItem>
                           </PendingItem>
-                          <A href="#" onClick={(e) => handleEditing(e, item)}>
-                            Edit 
-                          </A>
+                          <EditButton onClick={(e) => handleEditing(e, item)}>
+                            Edit {item.itemName}
+                          </EditButton>
                         </>
                       )
                     }
@@ -316,7 +325,7 @@ const ShoppingList = () => {
                 ? 1
                 : -1
             )
-            // sorted by category and then itemName
+            // sorted by itemName only (took out category sorting)
             // Credit: researched and found above sorting solution from:
             // https://flaviocopes.com/how-to-sort-array-of-objects-by-property-javascript/
             .map((item, idx) => {
