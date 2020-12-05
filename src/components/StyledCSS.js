@@ -2,15 +2,20 @@ import styled from "styled-components";
 
 // break out styled comp into its own
 export const Label = styled.label`
-  color: #434370;
+  color: #434370; //grayish-blue text color
   font-weight: bold;
+`;
+
+export const WarningLabel = styled.label`
+  color: red;
+  display: block;
 `;
 
 export const Input = styled.input`
   padding: 0.5em;
   margin: 0.5em;
   background: Gainsboro;
-  border: 1px solid Gainsboro;
+  border: 1px solid lightgray;
   border-radius: 5px;
 `;
 
@@ -20,13 +25,23 @@ export const Button = styled.button`
   font-size: 1em;
   margin: 1em;
   padding: 0.25em 1em;
-  border: 2px solid darkblue;
   border-radius: 5px;
+  border: 2px solid darkblue;
+  &:hover {
+    font-weight: bold;
+  }
 `;
 
-export const WarningLabel = styled.label`
-  color: red;
-  display: block;
+export const EditButton = styled(Button)`
+  background: lightgray;
+  color: maroon;
+  font-size: 0.8em;
+  margin: 0.5em;
+  padding: 0.25em 0.7em;
+  border: 0px;
+  &:hover {
+    background: silver;
+  }
 `;
 
 export const DisplayContainer = styled.div`
@@ -43,33 +58,19 @@ export const DisplayContainer = styled.div`
 `;
 
 export const DisplayPending = styled(DisplayContainer)`
-  // background: lightblue;
-  background: #e5f5ff;
+  background: #e5f5ff; //very lightblue color
+  // background: LightGoldenrodYellow; 
 `;
 
 export const DisplayCrossedOff = styled(DisplayContainer)`
-  // background: lightgreen;
-  background: #fff1e9;
-`;
-
-export const CategoryHeader = styled.h3`
-  color: #434370;
-`;
-
-export const ListHeader = styled(CategoryHeader)`
-  font-weight: 900;
-  font-size: larger;
-`;
-
-export const AppHeader = styled(ListHeader)`
-  font-size: 26px;
+  background: LightGoldenrodYellow; 
 `;
 
 export const Section = styled.section`
-  // outline: 1px dotted red;
+  // outline: 1px dotted red;  //for visual/alignment testing
 `;
 
-export const ItemInCategory = styled.div`
+export const ItemsInCategory = styled.div`
   width: auto;
   width: 25vw;
   height: auto;
@@ -85,21 +86,9 @@ export const ItemInCategory = styled.div`
 
 export const PendingItem = styled.div`
   width: auto;
-  height: 20px;
+  height: auto;
   text-align: center;
   margin-top: 5px;
-  // outline: 1px dotted blue;
-`;
-
-export const CrossedOffItem = styled(PendingItem)`
-  text-decoration: line-through;
-`;
-
-export const Subtotal = styled.p`
-  margin-bottom: 0px;
-  font-style: italic;
-  font-weight: bold;
-  color: #434370;
 `;
 
 export const EachItem = styled.span`
@@ -111,13 +100,27 @@ export const EachItemName = styled(EachItem)`
   font-weight: bold;
 `;
 
-export const EditButton = styled(Button)`
-  background: gainsboro;
-  color: maroon;
-  font-size: 0.8em;
-  margin: 0.5em;
-  padding: 0.25em 0.8em;
-  border: 1px solid darkgrey;
-  border-radius: 5px;
-  // outline: 1px dotted red;
+export const CrossedOffItem = styled(PendingItem)`
+  text-decoration: line-through;
+`;
+
+export const CategoryHeader = styled.h3`
+  color: #434370;
+`;
+
+export const ListHeader = styled(CategoryHeader)`
+  font-weight: 900;
+  font-size: larger;
+`;
+
+export const AppHeader = styled(ListHeader)`
+  font-size: 26px;
+  margin-bottom: 50px  
+`;
+
+export const Subtotal = styled.p`
+  margin-bottom: 0px;
+  font-style: italic;
+  font-weight: bold;
+  color: #434370;
 `;
