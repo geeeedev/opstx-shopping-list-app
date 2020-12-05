@@ -6,28 +6,6 @@ import {
   Button,
 } from "./StyledCSS";
 
-// const Label = styled.label`
-//     color: darkblue;
-// `;
-
-// const Input = styled.input`
-//   padding: 0.5em;
-//   margin: 0.5em;
-//   background: lightgray;
-//   border: 1px solid gray;
-//   border-radius: 5px;
-// `;
-
-// const Button = styled.button`
-//   background: ivory;
-//   color: darkblue;
-//   font-size: 1em;
-//   margin: 1em;
-//   padding: 0.25em 1em;
-//   border: 2px solid darkblue;
-//   border-radius: 5px;
-// `;
-
 const EditItem = (props) => {
     const [itemName, setItemName] = useState(props.item.itemName);
     const [category, setCategory] = useState(props.item.category);
@@ -35,13 +13,23 @@ const EditItem = (props) => {
     const [quantity, setQuantity] = useState(props.item.quantity);
     const [isCrossedOff, setIsCrossedOff] = useState(props.item.isCrossedOff);
   
+    const toTitleCase = (str) => {
+      str = str
+        .toLowerCase()
+        .split(" ")
+        .map((eaWord) => eaWord[0].toUpperCase() + eaWord.slice(1))
+        .join(" ");
+  
+      return str;
+    };
+
     const handleUpdate = (e) => {
       e.preventDefault();
       // console.log(`e`,e);
   
       const updatedItem = {
-          itemName,
-          category,
+          itemName: toTitleCase(itemName),
+          category: toTitleCase(category),
           price,
           quantity,
           isCrossedOff
@@ -49,7 +37,7 @@ const EditItem = (props) => {
   
       //passing both objs back to update lists
       props.updateList(props.item, updatedItem);
-      //last steps
+      //last steps hiding edit component when finished
       props.editActive(false);
     }
 
@@ -83,7 +71,7 @@ const EditItem = (props) => {
           name="price"
           type="number"
           step="0.01"
-        min="0.00"
+          min="0.00"
           onChange={(e) => setPrice(e.target.value)}
           value={price}
         />
