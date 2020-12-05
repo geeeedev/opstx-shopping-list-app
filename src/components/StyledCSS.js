@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 // break out styled comp into its own
 export const Label = styled.label`
-  //   color: darkblue;
   color: #434370;
   font-weight: bold;
 `;
@@ -44,25 +43,26 @@ export const DisplayContainer = styled.div`
 `;
 
 export const DisplayPending = styled(DisplayContainer)`
-  // display: inline-block;
   // background: lightblue;
   background: #e5f5ff;
 `;
 
 export const DisplayCrossedOff = styled(DisplayContainer)`
-  // display: inline-block;
   // background: lightgreen;
   background: #fff1e9;
 `;
 
-export const ListHeader = styled.h3`
-  font-weight: 900;
-  font-size: larger;
+export const CategoryHeader = styled.h3`
   color: #434370;
 `;
 
-export const CategoryHeader = styled.h3`
-  color: #434370;
+export const ListHeader = styled(CategoryHeader)`
+  font-weight: 900;
+  font-size: larger;
+`;
+
+export const AppHeader = styled(ListHeader)`
+  font-size: 26px;
 `;
 
 export const Section = styled.section`
@@ -77,10 +77,6 @@ export const ItemInCategory = styled.div`
   padding: 0.25em 1em;
   padding-top: 10px;
   padding-bottom: 10px;
-  // font-size: 1em;
-  // margin: 1em;
-  //   display: flex;
-  //   justify-content: center;
   display: inline-block;
   text-align: center;
   border-radius: 15px;

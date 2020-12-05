@@ -9,6 +9,7 @@ import {
   DisplayPending,
   DisplayCrossedOff,
   Section,
+  AppHeader,
   ListHeader,
   CategoryHeader,
   PendingItem,
@@ -264,6 +265,7 @@ const ShoppingList = () => {
 
   return (
     <>
+    <AppHeader>OpenStax Shopping List</AppHeader>
       <form
         onSubmit={(e) => {
           handleAddNew(e);
@@ -341,7 +343,6 @@ const ShoppingList = () => {
           // https://flaviocopes.com/how-to-sort-array-of-objects-by-property-javascript/
           .map((item, idx) => {
             return (
-              <>
                 <CrossedOffItem
                   key={idx}
                   onClick={(e) => handleCrossOff(e, item)}
@@ -350,7 +351,6 @@ const ShoppingList = () => {
                   <EachItem>${item.price ? item.price : "0"}</EachItem>
                   <EachItem>({item.quantity ? item.quantity : "0"})</EachItem>
                 </CrossedOffItem>
-              </>
             );
           })}
       </DisplayCrossedOff>
@@ -364,7 +364,6 @@ const ShoppingList = () => {
 
       {/* /////////////////////////////////// For Testing Only /////////////////////////////////// */}
       <DisplayContainer>
-        Testing:
         <p>Adding: {itemName}</p>
         {allItemsList.map((item, idx) => {
           return (
