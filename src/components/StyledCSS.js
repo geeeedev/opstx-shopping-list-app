@@ -56,12 +56,41 @@ export const ListHeader = styled.h3`
   color: #434370;
 `;
 
-export const PendingLi = styled.li`
-  list-style-type: none;
-  margin-top: 15px;
+export const CategoryHeader = styled.h3`
+  color: #434370;
 `;
 
-export const CrossedOffLi = styled(PendingLi)`
+export const Section = styled.section`
+  // outline: 1px dotted red;
+`;
+
+export const ItemInCategory = styled.div`
+  width: auto;
+  width: 25vw;
+  height: auto;
+  text-align: center;
+  padding: 0.25em 1em;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  // font-size: 1em;
+  // margin: 1em;
+  //   display: flex;
+  //   justify-content: center;
+  display: inline-block;
+  text-align: center;
+  border-radius: 15px;
+  background: Gainsboro;
+`;
+
+export const PendingItem = styled.div`
+  width: auto;
+  height: 20px;
+  text-align: center;
+  margin-top: 5px;
+  // outline: 1px dotted blue;
+`;
+
+export const CrossedOffItem = styled(PendingItem)`
   text-decoration: line-through;
 `;
 

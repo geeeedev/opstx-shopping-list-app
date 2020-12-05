@@ -1,22 +1,24 @@
 import React, { useState } from "react";
 // import styled from "styled-components";
 import {
-    Label,
-    Input,
-    Button,
-    DisplayContainer,
-    DisplayPending,
-    DisplayCrossedOff,
-    ListHeader,
-    PendingLi,
-    CrossedOffLi,
-    Subtotal,
-    EachItem,
-    EachItemName,
-    A,
-  } from "./StyledCSS";
+  Label,
+  Input,
+  Button,
+  DisplayContainer,
+  DisplayPending,
+  DisplayCrossedOff,
+  Section,
+  ListHeader,
+  CategoryHeader,
+  PendingItem,
+  CrossedOffItem,
+  Subtotal,
+  EachItem,
+  EachItemName,
+  ItemInCategory,
+  A,
+} from "./StyledCSS";
 import EditItem from "./EditItem";
-
 
 // // could possibly break these out into their own components
 // // and import them to be used
@@ -152,7 +154,6 @@ const ShoppingList = () => {
   const [editActive, setEditActive] = useState(false);
   const [itemToEdit, setItemToEdit] = useState(null);
 
-
   const handleAddNew = (e) => {
     e.preventDefault();
 
@@ -208,6 +209,35 @@ const ShoppingList = () => {
     setDisplayList(updatedList);
   };
 
+  const calcSubtotal = displayList
+    .filter((item) => item.isCrossedOff === false)
+    .map((item) => item.price * item.quantity)
+    .reduce((a, b) => a + b, 0)
+    .toFixed(2);
+
+  /**
+   * creating a categorized display list
+   *  {
+   *  "Fruit": [apple, ...]
+   *  "Dairy": [milk, ...]
+   *   ...
+   * }
+   */
+  const categoriedDisplayList = displayList
+    .filter((item) => item.isCrossedOff === false)
+    .reduce((catObj, item) => {
+      if (!catObj.hasOwnProperty(item.category)) {
+        catObj[item.category] = [];
+      }
+      catObj[item.category].push(item);
+      return catObj;
+    }, {});
+
+  /**
+   * sorted the categorized list into its own array list
+   * ["Dairy", "Fruit", "Others"]
+   */ 
+  const sortedCategory = Object.keys(categoriedDisplayList).sort();
 
   return (
     <>
@@ -229,46 +259,47 @@ const ShoppingList = () => {
       </form>
 
       <DisplayPending>
-      <ListHeader> Pending Items </ListHeader>
-        <ul>
-          {displayList
-            .filter((item) => item.isCrossedOff === false)
-            .sort((a, b) =>
-              a.category > b.category
-                ? 1
-                : a.category === b.category
-                ? a.itemName > b.itemName
-                  ? 1
-                  : -1
-                : -1
-            )
-            // sorted by category and then itemName; not ideal clean up later
-            // Credit: researched and found above sorting solution from:
-            // https://flaviocopes.com/how-to-sort-array-of-objects-by-property-javascript/
-            .map((item, idx) => {
-              return (
-                <>
-                  <PendingLi key={idx} onClick={(e) => handleCrossOff(e, item)}>
-                    <EachItemName>{item.itemName}</EachItemName>
-                    <EachItem>${item.price ? item.price : "0"}</EachItem>
-                    <EachItem>({item.quantity ? item.quantity : "0"})</EachItem>
-                  </PendingLi>
-                  <A href="#" onClick={(e) => handleEditing(e, item)}>
-                    Edit 
-                  </A>
-                </>
-              );
-            })}
-        </ul>
-        <Subtotal>Subtotal: ${displayList
-    .filter((item) => item.isCrossedOff === false)
-    .map((item) => item.price * item.quantity)
-    .reduce((a, b) => a + b, 0)
-    .toFixed(2)}</Subtotal>
+        <ListHeader> Pending Items </ListHeader>
+        {/* [dairy, fruit, other, snacks] */}
+        {/* {dairy:[item, item],
+            fruit:[]
+        */}
+        {
+          sortedCategory.map((cat, catIdx) => {
+            return (
+              <Section key={catIdx}>
+                <CategoryHeader>{cat}</CategoryHeader>
+                <ItemInCategory>
+                  {categoriedDisplayList[cat].map((item, itemIdx) => {
+                    return ( 
+                        <>  
+                          <PendingItem
+                            key={itemIdx}
+                            onClick={(e) => handleCrossOff(e, item)}
+                          >
+                            <EachItemName>{item.itemName}</EachItemName>
+                            
+                            <EachItem>
+                              Qty: {item.quantity ? item.quantity : "0"}
+                            </EachItem>
+                            <EachItem>${item.price ? item.price : "0"}/per</EachItem>
+                          </PendingItem>
+                          <A href="#" onClick={(e) => handleEditing(e, item)}>
+                            Edit 
+                          </A>
+                        </>
+                      )
+                    }
+                  )}  
+                </ItemInCategory>
+              </Section>
+            );
+          })
+        }
+        {calcSubtotal > 0 && <Subtotal>Subtotal: ${calcSubtotal}</Subtotal>}
       </DisplayPending>
       <DisplayCrossedOff>
-      <ListHeader> Crossed-Off Items </ListHeader>
-        <ul>
+        <ListHeader> Crossed-Off Items </ListHeader>
           {displayList
             .filter((item) => item.isCrossedOff === true)
             .sort((a, b) =>
@@ -286,18 +317,17 @@ const ShoppingList = () => {
             .map((item, idx) => {
               return (
                 <>
-                  <CrossedOffLi
+                  <CrossedOffItem
                     key={idx}
                     onClick={(e) => handleCrossOff(e, item)}
                   >
                     <EachItemName>{item.itemName}</EachItemName>
                     <EachItem>${item.price ? item.price : "0"}</EachItem>
                     <EachItem>({item.quantity ? item.quantity : "0"})</EachItem>
-                  </CrossedOffLi>
+                  </CrossedOffItem>
                 </>
               );
             })}
-        </ul>
       </DisplayCrossedOff>
       {editActive && (
         <EditItem
