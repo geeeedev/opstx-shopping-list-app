@@ -302,13 +302,18 @@ const ShoppingList = () => {
         <ListHeader> Crossed-Off Items </ListHeader>
           {displayList
             .filter((item) => item.isCrossedOff === true)
+            // .sort((a, b) =>
+            //   a.category > b.category
+            //     ? 1
+            //     : a.category === b.category
+            //     ? a.itemName > b.itemName
+            //       ? 1
+            //       : -1
+            //     : -1
+            // )
             .sort((a, b) =>
-              a.category > b.category
+              a.itemName > b.itemName
                 ? 1
-                : a.category === b.category
-                ? a.itemName > b.itemName
-                  ? 1
-                  : -1
                 : -1
             )
             // sorted by category and then itemName
