@@ -171,6 +171,18 @@ const ShoppingList = () => {
         <ul>
           {displayList
             .filter((item) => item.isCrossedOff === false)
+            .sort((a, b) =>
+              a.category > b.category
+                ? 1
+                : a.category === b.category
+                ? a.itemName > b.itemName
+                  ? 1
+                  : -1
+                : -1
+            )
+            // sorted by category and then itemName; not ideal clean up later
+            // Credit: researched and found above sorting solution from:
+            // https://flaviocopes.com/how-to-sort-array-of-objects-by-property-javascript/
             .map((item, idx) => {
               return (
                 <>
@@ -188,6 +200,18 @@ const ShoppingList = () => {
         <ul>
           {displayList
             .filter((item) => item.isCrossedOff === true)
+            .sort((a, b) =>
+              a.category > b.category
+                ? 1
+                : a.category === b.category
+                ? a.itemName > b.itemName
+                  ? 1
+                  : -1
+                : -1
+            )
+            // sorted by category and then itemName
+            // Credit: researched and found above sorting solution from:
+            // https://flaviocopes.com/how-to-sort-array-of-objects-by-property-javascript/
             .map((item, idx) => {
               return (
                 <>
