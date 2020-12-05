@@ -52,6 +52,10 @@ const EditItem = (props) => {
       //last steps
       props.editActive(false);
     }
+
+    const handleCancelUpdate = () => {
+      props.editActive(false);
+  }
   
     return (
       <form onSubmit={(e)=>handleUpdate(e)}>
@@ -78,6 +82,8 @@ const EditItem = (props) => {
           id="price"
           name="price"
           type="number"
+          step="0.01"
+        min="0.00"
           onChange={(e) => setPrice(e.target.value)}
           value={price}
         />
@@ -87,11 +93,13 @@ const EditItem = (props) => {
           id="quantity"
           name="quantity"
           type="number"
+          min="0"
           onChange={(e) => setQuantity(e.target.value)}
           value={quantity}
         />
   
         <Button type="submit">Update</Button>
+        <Button as="a" onClick={handleCancelUpdate}>Cancel</Button>
       </form>
     );
   };
