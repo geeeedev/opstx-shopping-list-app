@@ -22,77 +22,6 @@ import {
 } from "./StyledCSS";
 import EditItem from "./EditItem";
 
-// // could possibly break these out into their own components
-// // and import them to be used
-// const Label = styled.label`
-//     color: darkblue;
-// `;
-
-// const Input = styled.input`
-//   padding: 0.5em;
-//   margin: 0.5em;
-//   background: lightgray;
-//   border: 1px solid gray;
-//   border-radius: 5px;
-// `;
-
-// const Button = styled.button`
-//   background: ivory;
-//   color: darkblue;
-//   font-size: 1em;
-//   margin: 1em;
-//   padding: 0.25em 1em;
-//   border: 2px solid darkblue;
-//   border-radius: 5px;
-// `;
-
-// const DisplayContainer = styled.div`
-//   font-size: 1em;
-//   margin: 1em;
-//   padding: 0.25em 1em;
-//   width: 30vw;
-//   height: auto;
-//   //   display: flex;
-//   //   justify-content: center;
-//   display: inline-block;
-//   text-align: center;
-//   border-radius: 15px;
-//   background: lightgray;
-// `;
-
-// const DisplayPending = styled(DisplayContainer)`
-//   // display: inline-block;
-//   background: lightblue;
-// `;
-
-// const DisplayCrossedOff = styled(DisplayContainer)`
-//   // display: inline-block;
-//   background: lightgreen;
-// `;
-
-// const PendingLi = styled.li`
-//   list-style-type: none;
-//   margin-top: 15px;
-// `;
-
-// const CrossedOffLi = styled(PendingLi)`
-//   text-decoration: line-through;
-// `;
-
-// const EachItem = styled.span`
-// padding: 8px;
-//   color: maroon;
-// `;
-
-// const EachItemName = styled(EachItem)`
-//   font-weight: bold;
-// `;
-
-// const A = styled.a`
-//   display: inline;
-//   font-size: smaller;
-// `;
-
 const ShoppingList = () => {
   const [itemName, setItemName] = useState("");
   const [category, setCategory] = useState("Uncategorized");
@@ -186,12 +115,14 @@ const ShoppingList = () => {
 
       setItemName("");
     } else {
+      clearScreen();
       setWarning("Create Unsuccessful: No Item is Provided!");
     }
   };
 
-  const clearWarning = () => {
+  const clearScreen = () => {
     setWarning("");
+    setEditActive(false);
   };
 
   const handleSearch = (e) => {
@@ -208,7 +139,7 @@ const ShoppingList = () => {
 
   const handleCrossOff = (e, item) => {
     e.preventDefault();
-    clearWarning();
+    clearScreen();
 
     item.isCrossedOff = !item.isCrossedOff;
     setDisplayList([...displayList]);
@@ -216,7 +147,7 @@ const ShoppingList = () => {
 
   const handleEditing = (e, selectedItem) => {
     e.preventDefault();
-    clearWarning();
+    clearScreen();
 
     setEditActive(true);
     setItemToEdit(selectedItem);
@@ -265,7 +196,7 @@ const ShoppingList = () => {
 
   return (
     <>
-    <AppHeader>OpenStax Shopping List</AppHeader>
+      <AppHeader>OpenStax Shopping List</AppHeader>
       <form
         onSubmit={(e) => {
           handleAddNew(e);
@@ -277,7 +208,7 @@ const ShoppingList = () => {
           type="text"
           name="add"
           onChange={(e) => handleSearch(e)}
-          onFocus={clearWarning}
+          onFocus={clearScreen}
           value={itemName}
         />
 
@@ -343,14 +274,14 @@ const ShoppingList = () => {
           // https://flaviocopes.com/how-to-sort-array-of-objects-by-property-javascript/
           .map((item, idx) => {
             return (
-                <CrossedOffItem
-                  key={idx}
-                  onClick={(e) => handleCrossOff(e, item)}
-                >
-                  <EachItemName>{item.itemName}</EachItemName>
-                  <EachItem>${item.price ? item.price : "0"}</EachItem>
-                  <EachItem>({item.quantity ? item.quantity : "0"})</EachItem>
-                </CrossedOffItem>
+              <CrossedOffItem
+                key={idx}
+                onClick={(e) => handleCrossOff(e, item)}
+              >
+                <EachItemName>{item.itemName}</EachItemName>
+                <EachItem>${item.price ? item.price : "0"}</EachItem>
+                <EachItem>({item.quantity ? item.quantity : "0"})</EachItem>
+              </CrossedOffItem>
             );
           })}
       </DisplayCrossedOff>
